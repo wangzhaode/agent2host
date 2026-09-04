@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agent2host": {
+      "command": "a2h",
+      "args": ["mcp"]
+    }
+  }
+}

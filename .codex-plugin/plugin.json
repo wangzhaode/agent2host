@@ -1,0 +1,22 @@
+{
+  "name": "agent2host",
+  "version": "0.3.0",
+  "description": "Persistent native shells across local and SSH hosts, including Android targets attached through adb.",
+  "author": {
+    "name": "Agent2Host contributors"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent2Host",
+    "shortDescription": "Give coding agents persistent access to your hosts.",
+    "longDescription": "Add local or SSH hosts, keep native PTY sessions alive through a local daemon, and let coding agents execute commands, edit files, and control Android targets attached to any host without installing an agent remotely.",
+    "developerName": "Agent2Host contributors",
+    "category": "Productivity",
+    "capabilities": ["MCP tools", "Agent workflow"],
+    "defaultPrompt": [
+      "List my hosts and open a persistent development shell.",
+      "List Android targets attached to my Mac mini and inspect the selected phone."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

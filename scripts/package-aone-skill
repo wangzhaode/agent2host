@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+project_dir=$(dirname -- "$script_dir")
+source_file="$project_dir/skills/agent2host/SKILL.md"
+output_dir="$project_dir/dist/aone-skill"
+version=${1:-0.3.0}
+
+case "$version" in
+  [0-9]*.[0-9]*.[0-9]*) ;;
+  *) printf 'a2h: invalid semantic version: %s\n' "$version" >&2; exit 1 ;;
+esac
+
+mkdir -p "$output_dir"
+awk -v version="$version" '
+  NR == 1 { print; next }
+  !added && $0 == "---" {
+    print "version: " version
+    print "cli:"
+    print "  - agent2host"
+    added = 1
+  }
+  { print }
+  END { if (!added) exit 1 }
+' "$source_file" > "$output_dir/SKILL.md"
+
+printf 'Aone Skill package created at %s\n' "$output_dir"

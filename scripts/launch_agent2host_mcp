@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+project_dir=$(dirname -- "$script_dir")
+cd "$project_dir"
+
+if command -v a2h >/dev/null 2>&1; then
+  candidate=$(command -v a2h)
+  if "$candidate" version >/dev/null 2>&1; then
+    exec "$candidate" mcp
+  fi
+fi
+
+if [ -x ./bin/a2h ] && ./bin/a2h version >/dev/null 2>&1; then
+  exec ./bin/a2h mcp
+fi
+
+if command -v go >/dev/null 2>&1; then
+  exec go run ./cmd/a2h mcp
+fi
+
+printf '%s\n' 'a2h: install the a2h binary or Go 1.25+' >&2
+exit 127

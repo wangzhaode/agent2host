@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+project_dir=$(dirname -- "$script_dir")
+
+if ! command -v codex >/dev/null 2>&1; then
+  printf '%s\n' 'a2h: codex CLI is not available on PATH' >&2
+  exit 127
+fi
+if ! command -v a2h >/dev/null 2>&1 && ! command -v go >/dev/null 2>&1; then
+  printf '%s\n' 'a2h: install Go 1.27.1+ or put the a2h binary on PATH' >&2
+  exit 127
+fi
+if ! command -v ssh >/dev/null 2>&1; then
+  printf '%s\n' 'a2h: OpenSSH is not available on PATH' >&2
+  exit 127
+fi
+
+if command -v a2h >/dev/null 2>&1; then
+	a2h_bin=$(command -v a2h)
+else
+	mkdir -p "$project_dir/bin"
+	(cd "$project_dir" && go build -o bin/a2h ./cmd/a2h)
+	a2h_bin="$project_dir/bin/a2h"
+fi
+
+"$a2h_bin" daemon stop >/dev/null 2>&1 || true
+"$a2h_bin" setup codex
+
+printf '\n%s\n' 'Agent2Host is connected to Codex. Restart Codex, then say: list my hosts'

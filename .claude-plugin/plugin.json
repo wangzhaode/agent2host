@@ -1,0 +1,12 @@
+{
+  "name": "agent2host",
+  "version": "0.3.0",
+  "description": "Persistent native shells across local and SSH hosts, including Android targets attached through adb.",
+  "author": {
+    "name": "Agent2Host contributors"
+  },
+  "homepage": "https://github.com/wangzhaode/agent2host",
+  "repository": "https://github.com/wangzhaode/agent2host",
+  "license": "MIT",
+  "mcpServers": "./.mcp.json"
+}

@@ -1,0 +1,6 @@
+/bin/
+/dist/
+coverage.out
+.DS_Store
+*.sock
+*.log

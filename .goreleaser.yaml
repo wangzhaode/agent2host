@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+project_name: agent2host
+
+builds:
+  - id: a2h
+    main: ./cmd/a2h
+    binary: a2h
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+      - riscv64
+    ignore:
+      - goos: darwin
+        goarch: riscv64
+    ldflags:
+      - >-
+        -s -w
+        -X github.com/wangzhaode/agent2host/internal/buildinfo.Version={{ .Version }}
+
+archives:
+  - ids: [a2h]
+    formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+  algorithm: sha256
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
